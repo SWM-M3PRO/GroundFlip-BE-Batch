@@ -8,7 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Repository;
 
-import com.m3pro.groundflipbebatch.entity.redis.Ranking;
+import com.m3pro.groundflipbebatch.entity.redis.RankingDetail;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -27,18 +27,27 @@ public class RankingRedisRepository {
 		zSetOperations = redisTemplate.opsForZSet();
 	}
 
-	public List<Ranking> getRankingsWithCurrentPixelCount() {
+	public List<RankingDetail> getRankingsWithCurrentPixelCount() {
 		Set<ZSetOperations.TypedTuple<String>> typedTuples = zSetOperations.reverseRangeWithScores(RANKING_KEY,
 			RANKING_START_INDEX, RANKING_END_INDEX);
 		if (typedTuples == null) {
 			return new ArrayList<>();
 		}
 
-		List<Ranking> rankings = new ArrayList<>();
-		long rank = 1;
+		List<RankingDetail> rankingDetails = new ArrayList<>();
+		long ranking = 1;
 		for (ZSetOperations.TypedTuple<String> typedTuple : typedTuples) {
-			rankings.add(Ranking.from(typedTuple, rank++));
+			rankingDetails.add(RankingDetail.from(typedTuple, ranking++));
 		}
-		return rankings;
+		return rankingDetails;
+	}
+
+	public void resetAllScoresToZero() {
+		Set<String> userIds = zSetOperations.range(RANKING_KEY, RANKING_START_INDEX, -1); // Get all members
+		if (userIds != null) {
+			for (String userId : userIds) {
+				zSetOperations.add(RANKING_KEY, userId, 0); // Update the score to 0
+			}
+		}
 	}
 }

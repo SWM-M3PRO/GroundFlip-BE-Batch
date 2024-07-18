@@ -1,8 +1,9 @@
 package com.m3pro.groundflipbebatch.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-import com.m3pro.groundflipbebatch.entity.redis.Ranking;
+import com.m3pro.groundflipbebatch.entity.redis.RankingDetail;
+import com.m3pro.groundflipbebatch.util.DateUtils;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,15 +33,24 @@ public class RankingHistory extends BaseTimeEntity {
 
 	Long currentPixelCount;
 
-	@Column(name = "snapshot_time")
-	LocalDateTime snapShotTime;
+	Integer year;
 
-	public static RankingHistory of(Ranking ranking) {
+	Integer week;
+
+	public static RankingHistory of(RankingDetail rankingDetail) {
+		int year = LocalDate.now().getYear();
+		int week = DateUtils.getWeekOfDate(LocalDate.now());
 		return RankingHistory.builder()
-			.userId(ranking.getUserId())
-			.ranking(ranking.getRank())
-			.currentPixelCount(ranking.getCurrentPixelCount())
-			.snapShotTime(LocalDateTime.now())
+			.userId(rankingDetail.getUserId())
+			.ranking(rankingDetail.getRanking())
+			.currentPixelCount(rankingDetail.getCurrentPixelCount())
+			.year(year)
+			.week(week)
 			.build();
+	}
+
+	public void update(Long currentPixelCount, Long ranking) {
+		this.currentPixelCount = currentPixelCount;
+		this.ranking = ranking;
 	}
 }

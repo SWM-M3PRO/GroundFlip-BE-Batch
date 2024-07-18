@@ -11,16 +11,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Ranking {
+public class RankingDetail {
 	private Long userId;
 	private Long currentPixelCount;
-	private Long rank;
+	private Long ranking;
 
-	public static Ranking from(ZSetOperations.TypedTuple<String> typedTuple, Long rank) {
-		return new Ranking(
+	public static RankingDetail from(ZSetOperations.TypedTuple<String> typedTuple, Long ranking) {
+		return new RankingDetail(
 			Long.parseLong(Objects.requireNonNull(typedTuple.getValue())),
 			Objects.requireNonNull(typedTuple.getScore()).longValue(),
-			rank
+			ranking
 		);
 	}
 }
