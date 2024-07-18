@@ -2,7 +2,7 @@ package com.m3pro.groundflipbebatch.entity;
 
 import java.time.LocalDateTime;
 
-import org.springframework.stereotype.Component;
+import com.m3pro.groundflipbebatch.entity.redis.Ranking;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,4 +34,13 @@ public class RankingHistory extends BaseTimeEntity {
 
 	@Column(name = "snapshot_time")
 	LocalDateTime snapShotTime;
+
+	public static RankingHistory of(Ranking ranking) {
+		return RankingHistory.builder()
+			.userId(ranking.getUserId())
+			.ranking(ranking.getRank())
+			.currentPixelCount(ranking.getCurrentPixelCount())
+			.snapShotTime(LocalDateTime.now())
+			.build();
+	}
 }
