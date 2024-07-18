@@ -28,7 +28,9 @@ public class RankingHistory extends BaseTimeEntity {
 
 	Long userId;
 
-	Integer ranking;
+	Long ranking;
+
+	Long currentPixelCount;
 
 	@Column(name = "snapshot_time")
 	LocalDateTime snapShotTime;
