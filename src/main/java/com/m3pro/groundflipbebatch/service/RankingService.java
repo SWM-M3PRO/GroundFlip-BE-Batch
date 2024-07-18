@@ -17,9 +17,11 @@ import com.m3pro.groundflipbebatch.util.DateUtils;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RankingService {
 	private final RankingRedisRepository rankingRedisRepository;
 
@@ -33,24 +35,22 @@ public class RankingService {
 
 		List<RankingHistory> updatedRankingHistoryList = new ArrayList<>();
 
-		int updatedRankingHistory = 0;
-		int createdRankingHistory = 0;
-
 		for (RankingDetail rankingDetail : newRankingDetails) {
 			RankingHistory existingRankingHistory = existingRankingHistoryMap.get(rankingDetail.getUserId());
 
 			if (existingRankingHistory != null) {
 				existingRankingHistory.update(rankingDetail.getCurrentPixelCount(), rankingDetail.getRanking());
 				updatedRankingHistoryList.add(existingRankingHistory);
-				updatedRankingHistory++;
 			} else {
 				RankingHistory newRankingHistory = RankingHistory.of(rankingDetail);
 				updatedRankingHistoryList.add(newRankingHistory);
-				createdRankingHistory++;
 			}
 		}
-
 		rankingHistoryRepository.saveAll(updatedRankingHistoryList);
+		log.info("[transferRankingToDatabase] 기존 유저 {}명, 새로운 유저 {}명",
+			existingRankingHistoryMap.keySet().size(),
+			newRankingDetails.size() - existingRankingHistoryMap.keySet().size()
+		);
 	}
 
 	private Map<Long, RankingHistory> getRankingHistoriesOfThisWeekAsMap() {
