@@ -12,8 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BatchService {
 	private final RankingService rankingService;
 
-	// @Scheduled(cron = "0 0 * * * *")
-	@Scheduled(cron = "10,20,30,40,50,0 * * * * *")
+	@Scheduled(cron = "0 0 * * * *")
 	public void transferRankingToDatabaseOnEveryMidnight() {
 		log.info("[transferRankingToDatabaseOnEveryMidnight] 랭킹 정보를 DB로 이관 시작");
 		rankingService.transferRankingToDatabase();
