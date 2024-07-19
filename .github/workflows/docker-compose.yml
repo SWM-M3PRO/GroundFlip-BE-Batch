@@ -1,0 +1,15 @@
+version: "3"
+services:
+  spring:
+    image: qjvk2880/groundflip_dev_batch:latest
+    container_name: groundflip_dev_batch_container
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - /home/ubuntu/logs:logs
+    environment:
+      SPRING_DATASOURCE_URL: ${DB_URI}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_DATA_REDIS_HOST: ${REDIS_HOST}
