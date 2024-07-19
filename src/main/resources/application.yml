@@ -1,1 +1,9 @@
-spring.application.name=GroundFlip-BE-Batch
+logging:
+  config: classpath:logback-spring.xml
+
+server:
+  port: 8080
+
+spring:
+  profiles:
+    default: local
