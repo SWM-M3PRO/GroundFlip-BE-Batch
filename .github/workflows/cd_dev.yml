@@ -60,6 +60,6 @@ jobs:
             echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> .env
             
             sudo docker rm -f $(docker ps -qa)
-            docker-compose pull
-            docker-compose up -d
-            docker image prune -f
+            sudo docker-compose pull
+            sudo docker-compose up -d
+            sudo docker image prune -f
