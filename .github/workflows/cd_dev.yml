@@ -59,7 +59,7 @@ jobs:
             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
             echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> .env
             
-            sudo docker rm -f $(docker ps -qa)
+            sudo docker rm -f $(sudo docker ps -qa)
             sudo docker-compose pull
             sudo docker-compose up -d
             sudo docker image prune -f
