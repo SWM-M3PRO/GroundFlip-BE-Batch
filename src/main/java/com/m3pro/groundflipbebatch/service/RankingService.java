@@ -35,21 +35,26 @@ public class RankingService {
 
 		List<RankingHistory> updatedRankingHistoryList = new ArrayList<>();
 
+		int existedUser = 0;
+		int newUser = 0;
 		for (RankingDetail rankingDetail : newRankingDetails) {
 			RankingHistory existingRankingHistory = existingRankingHistoryMap.get(rankingDetail.getUserId());
 
 			if (existingRankingHistory != null) {
 				existingRankingHistory.update(rankingDetail.getCurrentPixelCount(), rankingDetail.getRanking());
 				updatedRankingHistoryList.add(existingRankingHistory);
+				existedUser++;
 			} else {
 				RankingHistory newRankingHistory = RankingHistory.of(rankingDetail);
 				updatedRankingHistoryList.add(newRankingHistory);
+				newUser++;
 			}
 		}
+
 		rankingHistoryRepository.saveAll(updatedRankingHistoryList);
 		log.info("[transferRankingToDatabase] 기존 유저 {}명, 새로운 유저 {}명",
-			existingRankingHistoryMap.keySet().size(),
-			newRankingDetails.size() - existingRankingHistoryMap.keySet().size()
+			existedUser,
+			newUser
 		);
 	}
 

@@ -22,6 +22,9 @@ public class BatchService {
 
 	@Scheduled(cron = "0 0 0 * * MON")
 	public void resetRankingOnEveryMonday() {
+		log.info("[resetRankingOnEveryMonday] 레디스의 모든 픽셀 갯수를 0으로 초기화 시작");
 		rankingService.resetRanking();
+		log.info("[resetRankingOnEveryMonday] 레디스의 모든 픽셀 갯수를 0으로 초기화 완료");
+
 	}
 }
