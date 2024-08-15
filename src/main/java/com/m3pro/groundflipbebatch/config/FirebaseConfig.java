@@ -1,5 +1,6 @@
 package com.m3pro.groundflipbebatch.config;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -20,7 +21,8 @@ public class FirebaseConfig {
 
 	@PostConstruct
 	public void init() throws IOException {
-		InputStream secretKey = new ClassPathResource("firebase/firebase-secret-key.json").getInputStream();
+		// InputStream secretKey = new ClassPathResource("firebase/firebase-secret-key.json").getInputStream();
+		FileInputStream secretKey = new FileInputStream("/home/ubuntu/firebase-secret-key.json");
 
 		FirebaseOptions options = FirebaseOptions.builder()
 			.setCredentials(GoogleCredentials.fromStream(secretKey))
