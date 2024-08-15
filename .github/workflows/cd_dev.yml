@@ -24,9 +24,7 @@ jobs:
       - name: set Firebase
         run: |
           mkdir src/main/resources/firebase
-          echo "{" >> src/main/resources/firebase/firebase-secret-key.json
           echo "${{secrets.FIREBASE_SECRET_KEY}}" >> src/main/resources/firebase/firebase-secret-key.json
-          echo "}" >> src/main/resources/firebase/firebase-secret-key.json
           cat src/main/resources/firebase/firebase-secret-key.json
 
       # 2. Spring Boot 애플리케이션 빌드
