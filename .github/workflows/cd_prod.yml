@@ -22,7 +22,9 @@ jobs:
           distribution: 'temurin'
 
       - name: set Firebase
-        run: echo "${{secrets.FIREBASE_SECRET_KEY}}" >> src/main/resources/firebase/firebase-secret-key.json
+        run: |
+          mkdir src/main/resources/firebase
+          echo "${{secrets.FIREBASE_SECRET_KEY}}" >> src/main/resources/firebase/firebase-secret-key.json
 
       # 2. Spring Boot 애플리케이션 빌드
       - name: Build with Gradle
