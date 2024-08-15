@@ -21,6 +21,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: set Firebase
+        run: echo "${{secrets.FIREBASE_SECRET_KEY}}" >> ./src/main/resources/firebase/firebase-secret-key.json
+
       # 2. Spring Boot 애플리케이션 빌드
       - name: Build with Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
@@ -58,7 +61,6 @@ jobs:
             echo "DB_USERNAME=${{ secrets.DB_USERNAME_PROD }}" >> .env
             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD_PROD }}" >> .env
             echo "REDIS_HOST=${{ secrets.REDIS_HOST_PROD }}" >> .env
-            echo "${{secrets.FIREBASE_SECRET_KEY}}" >> ./src/main/resources/firebase/firebase-secret-key.json
             
             sudo docker rm -f $(sudo docker ps -qa)
             sudo docker-compose pull
