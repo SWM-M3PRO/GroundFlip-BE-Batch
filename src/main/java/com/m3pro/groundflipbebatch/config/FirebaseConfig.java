@@ -1,12 +1,11 @@
 package com.m3pro.groundflipbebatch.config;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Service;
+import org.springframework.core.io.ClassPathResource;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -21,7 +20,7 @@ public class FirebaseConfig {
 
 	@PostConstruct
 	public void init() throws IOException {
-		FileInputStream secretKey = new FileInputStream("./src/main/resources/firebase/firebase-secret-key.json");
+		InputStream secretKey = new ClassPathResource("firebase/firebase-secret-key.json").getInputStream();
 
 		FirebaseOptions options = FirebaseOptions.builder()
 			.setCredentials(GoogleCredentials.fromStream(secretKey))
