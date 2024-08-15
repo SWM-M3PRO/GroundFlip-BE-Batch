@@ -58,6 +58,7 @@ jobs:
             echo "DB_USERNAME=${{ secrets.DB_USERNAME_PROD }}" >> .env
             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD_PROD }}" >> .env
             echo "REDIS_HOST=${{ secrets.REDIS_HOST_PROD }}" >> .env
+            echo "${{secrets.FIREBASE_SECRET_KEY}}" >> ./src/main/resources/firebase/firebase-secret-key.json
             
             sudo docker rm -f $(sudo docker ps -qa)
             sudo docker-compose pull
