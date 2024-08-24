@@ -20,6 +20,13 @@ public class BatchService {
 		fcmService.sendNotificationToAllUsers(title, body);
 	}
 
+	@Scheduled(cron = "0 1 0 * * ?")
+	public void sendStepInitializeNotification() {
+		String title = "\uD83D\uDC5F걸음 수 저장 완료!";
+		String body = "오늘의 걸음수가 잘 저장되었어요!!";
+		fcmService.sendNotificationToAndroidUsers(title, body);
+	}
+
 	@Scheduled(cron = "0 0 * * * *")
 	public void transferRankingToDatabaseOnEveryMidnight() {
 		log.info("[transferRankingToDatabaseOnEveryMidnight] 랭킹 정보를 DB로 이관 시작");
