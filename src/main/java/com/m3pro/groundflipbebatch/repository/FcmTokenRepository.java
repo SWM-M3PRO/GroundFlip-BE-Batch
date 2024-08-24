@@ -19,5 +19,11 @@ public interface FcmTokenRepository extends JpaRepository<FcmToken, Long> {
 		""")
 	List<FcmToken> findAllTokensForServiceNotifications();
 
+	@Query("""
+		SELECT f FROM FcmToken f
+		WHERE f.device = 'ANDROID'
+		""")
+	List<FcmToken> findAllAndroidTokensForStepNotification();
+
 	void deleteByUser(User user);
 }

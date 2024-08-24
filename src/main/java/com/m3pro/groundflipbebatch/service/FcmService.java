@@ -46,6 +46,27 @@ public class FcmService {
 		}
 	}
 
+	public void sendNotificationToAndroidUsers(String title, String body) {
+		List<FcmToken> fcmTokens = fcmTokenRepository.findAllAndroidTokensForStepNotification();
+		List<Long> failedTokensId = new ArrayList<>();
+
+		fcmTokens.forEach(fcmToken -> {
+			try {
+				log.warn("success send notification to user [{}]: tokenId = {}", fcmToken.getUser().getId(), fcmToken.getId());
+				sendMessage(title, body, fcmToken.getToken());
+			} catch(FirebaseMessagingException e) {
+				if (isInvalidTokenError(e)) {
+					failedTokensId.add(fcmToken.getId());
+					log.warn("Failed to send notification to [{}]: {}", fcmToken.getUser().getId(), fcmToken.getToken());
+				}
+			}
+		});
+
+		if (!failedTokensId.isEmpty()) {
+			fcmTokenRepository.deleteAllById(failedTokensId);
+		}
+	}
+
 	public void sendMessage(String title, String body, String fcmToken) throws FirebaseMessagingException {
 		Message message = createMessage(title, body, fcmToken);
 		firebaseMessaging.send(message);
