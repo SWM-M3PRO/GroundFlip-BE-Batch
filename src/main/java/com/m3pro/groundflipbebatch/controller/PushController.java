@@ -22,7 +22,7 @@ public class PushController {
 	@PostMapping("/all")
 	public void sendNotificationToAllUsers(@RequestBody PushRequest pushRequest) {
 		if (pushRequest.getSecretKey().equals(secretKey)) {
-			fcmService.sendNotificationToAllUsers(pushRequest.getTitle(), pushRequest.getBody());
+			fcmService.sendNotificationToAllUsers(pushRequest.getTitle(), pushRequest.getBody(), pushRequest.getTarget(), pushRequest.getKind());
 		}
 	}
 }
