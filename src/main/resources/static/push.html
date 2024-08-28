@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>hello world</title>
+    <title>Push Sender</title>
 </head>
 <body>
     <h2>전체 유저에게 알림 보내기</h2>
@@ -12,6 +12,20 @@
 
         <label for="body">Body:</label><br>
         <textarea id="body" name="body" rows="10" cols="30" required></textarea><br><br>
+
+        <label>Push Target:</label><br>
+        <input type="radio" id="targetAll" name="target" value="ALL" checked>
+        <label for="targetAll">All</label><br>
+        <input type="radio" id="targetIOS" name="target" value="IOS">
+        <label for="targetIOS">iOS</label><br>
+        <input type="radio" id="targetAndroid" name="target" value="ANDROID">
+        <label for="targetAndroid">Android</label><br><br>
+
+        <label>Push Kind:</label><br>
+        <input type="radio" id="kindService" name="kind" value="SERVICE" checked>
+        <label for="kindService">Service</label><br>
+        <input type="radio" id="kindMarketing" name="kind" value="MARKETING">
+        <label for="kindMarketing">Marketing</label><br><br>
 
         <label for="secretKey">Secret:</label><br>
         <input type="text" id="secretKey" name="secretKey" required><br><br>
@@ -25,11 +39,15 @@
 
             const title = document.getElementById('title').value;
             const body = document.getElementById('body').value;
+            const target = document.querySelector('input[name="target"]:checked').value;
+            const kind = document.querySelector('input[name="kind"]:checked').value;
             const secretKey = document.getElementById('secretKey').value;
 
             const data = {
                 title: title,
                 body: body,
+                target: target,
+                kind: kind,
                 secretKey: secretKey
             };
 
