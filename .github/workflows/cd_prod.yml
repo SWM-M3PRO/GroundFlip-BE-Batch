@@ -59,6 +59,7 @@ jobs:
             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD_PROD }}" >> .env
             echo "REDIS_HOST=${{ secrets.REDIS_HOST_PROD }}" >> .env
             echo "FIREBASE_SECRET_KEY=${{ secrets.FIREBASE_SECRET_KEY }}" >> .env
+            echo "PUSH_SECRET_KEY=${{ secrets.PUSH_SECRET_KEY }}" >> .env
             
             sudo docker rm -f $(sudo docker ps -qa)
             sudo docker-compose pull

@@ -13,6 +13,8 @@ import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.MessagingErrorCode;
 import com.google.firebase.messaging.Notification;
 import com.m3pro.groundflipbebatch.entity.FcmToken;
+import com.m3pro.groundflipbebatch.enums.PushKind;
+import com.m3pro.groundflipbebatch.enums.PushTarget;
 import com.m3pro.groundflipbebatch.repository.FcmTokenRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,8 +27,36 @@ public class FcmService {
 	private final FirebaseMessaging firebaseMessaging;
 	private final FcmTokenRepository fcmTokenRepository;
 
-	public void sendNotificationToAllUsers(String title, String body) {
-		List<FcmToken> fcmTokens = fcmTokenRepository.findAllTokensForServiceNotifications();
+	public void sendNotificationToAllUsers(String title, String body, PushTarget target, PushKind kind) {
+		List<FcmToken> fcmTokens = findFcmTokens(target, kind);
+
+		sendNotificationToUsers(title, body, fcmTokens);
+	}
+
+	private List<FcmToken> findFcmTokens(PushTarget target, PushKind kind) {
+		List<FcmToken> fcmTokens;
+		if (kind == PushKind.SERVICE) {
+			if (target == PushTarget.ALL) {
+				fcmTokens = fcmTokenRepository.findAllTokensForServiceNotifications();
+			} else if (target == PushTarget.ANDROID) {
+				fcmTokens = fcmTokenRepository.findAllAndroidTokensForServiceNotification();
+			} else {
+				fcmTokens = fcmTokenRepository.findAllIOSTokensForServiceNotification();
+			}
+		} else {
+			if (target == PushTarget.ALL) {
+				fcmTokens = fcmTokenRepository.findAllTokensForMarketingNotifications();
+			} else if (target == PushTarget.ANDROID) {
+				fcmTokens = fcmTokenRepository.findAllAndroidTokensForMarketingNotification();
+			} else {
+				fcmTokens = fcmTokenRepository.findAllIOSTokensForMarketingNotification();
+			}
+		}
+
+		return fcmTokens;
+	}
+
+	private void sendNotificationToUsers(String title, String body, List<FcmToken> fcmTokens) {
 		List<Long> failedTokensId = new ArrayList<>();
 
 		fcmTokens.forEach(fcmToken -> {

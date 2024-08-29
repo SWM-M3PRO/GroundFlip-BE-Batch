@@ -27,3 +27,6 @@ spring:
 
   firebase:
     secret: ${FIREBASE_SECRET_KEY}
+
+  push:
+    secret: ${PUSH_SECRET_KEY}
