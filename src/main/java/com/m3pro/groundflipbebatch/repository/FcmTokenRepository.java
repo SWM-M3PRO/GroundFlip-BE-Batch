@@ -21,9 +21,46 @@ public interface FcmTokenRepository extends JpaRepository<FcmToken, Long> {
 
 	@Query("""
 		SELECT f FROM FcmToken f
+		JOIN Permission p ON f.user.id = p.user.id
+		WHERE f.device = 'IOS' AND p.serviceNotificationsEnabled = true
+		""")
+	List<FcmToken> findAllIOSTokensForServiceNotification();
+
+	@Query("""
+		SELECT f FROM FcmToken f
+		JOIN Permission p ON f.user.id = p.user.id
+		WHERE f.device = 'ANDROID' AND p.serviceNotificationsEnabled = true
+		""")
+	List<FcmToken> findAllAndroidTokensForServiceNotification();
+
+	@Query("""
+		SELECT f FROM FcmToken f
+		JOIN Permission p ON f.user.id = p.user.id
+		WHERE p.marketingNotificationsEnabled = true
+		""")
+	List<FcmToken> findAllTokensForMarketingNotifications();
+
+	@Query("""
+		SELECT f FROM FcmToken f
+		JOIN Permission p ON f.user.id = p.user.id
+		WHERE f.device = 'IOS' AND p.marketingNotificationsEnabled = true
+		""")
+	List<FcmToken> findAllIOSTokensForMarketingNotification();
+
+	@Query("""
+		SELECT f FROM FcmToken f
+		JOIN Permission p ON f.user.id = p.user.id
+		WHERE f.device = 'ANDROID' AND p.marketingNotificationsEnabled = true
+		""")
+	List<FcmToken> findAllAndroidTokensForMarketingNotification();
+
+	@Query("""
+		SELECT f FROM FcmToken f
 		WHERE f.device = 'ANDROID'
 		""")
 	List<FcmToken> findAllAndroidTokensForStepNotification();
+
+
 
 	void deleteByUser(User user);
 }
