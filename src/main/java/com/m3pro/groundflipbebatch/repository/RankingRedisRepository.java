@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class RankingRedisRepository {
 	private static final String RANKING_KEY = "current_pixel_ranking";
 	private static final int RANKING_START_INDEX = 0;
-	private static final int RANKING_END_INDEX = 29;
+	private static final int RANKING_END_INDEX = -1;
 	private final RedisTemplate<String, String> redisTemplate;
 	private ZSetOperations<String, String> zSetOperations;
 
