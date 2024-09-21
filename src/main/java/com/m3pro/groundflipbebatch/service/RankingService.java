@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.m3pro.groundflipbebatch.entity.RankingHistory;
 import com.m3pro.groundflipbebatch.entity.redis.RankingDetail;
 import com.m3pro.groundflipbebatch.repository.RankingHistoryRepository;
-import com.m3pro.groundflipbebatch.repository.RankingRedisRepository;
+import com.m3pro.groundflipbebatch.repository.UserRankingRedisRepository;
 import com.m3pro.groundflipbebatch.util.DateUtils;
 
 import jakarta.transaction.Transactional;
@@ -23,13 +23,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class RankingService {
-	private final RankingRedisRepository rankingRedisRepository;
+	private final UserRankingRedisRepository userRankingRedisRepository;
 
 	private final RankingHistoryRepository rankingHistoryRepository;
 
 	@Transactional
 	public void transferRankingToDatabase() {
-		List<RankingDetail> newRankingDetails = rankingRedisRepository.getRankingsWithCurrentPixelCount();
+		List<RankingDetail> newRankingDetails = userRankingRedisRepository.getRankingsWithCurrentPixelCount();
 
 		Map<Long, RankingHistory> existingRankingHistoryMap = getRankingHistoriesOfThisWeekAsMap();
 
@@ -66,8 +66,8 @@ public class RankingService {
 			.collect(Collectors.toMap(RankingHistory::getUserId, Function.identity()));
 	}
 
-	public void resetRanking() {
-		rankingRedisRepository.resetAllScoresToZero();
+	public void resetUserRanking() {
+		userRankingRedisRepository.resetAllScoresToZero();
 	}
 
 }
