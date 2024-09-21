@@ -6,29 +6,22 @@ import java.util.Set;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
-import org.springframework.stereotype.Repository;
 
 import com.m3pro.groundflipbebatch.entity.redis.RankingDetail;
 
-import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
-
-@Repository
-@RequiredArgsConstructor
 public class RankingRedisRepository {
-	private static final String RANKING_KEY = "current_pixel_ranking";
+	private final String currentPixelRankingKey;
 	private static final int RANKING_START_INDEX = 0;
 	private static final int RANKING_END_INDEX = -1;
-	private final RedisTemplate<String, String> redisTemplate;
-	private ZSetOperations<String, String> zSetOperations;
+	private final ZSetOperations<String, String> zSetOperations;
 
-	@PostConstruct
-	void init() {
+	public RankingRedisRepository(RedisTemplate<String, String> redisTemplate, String currentPixelRankingKey) {
+		this.currentPixelRankingKey = currentPixelRankingKey;
 		zSetOperations = redisTemplate.opsForZSet();
 	}
 
 	public List<RankingDetail> getRankingsWithCurrentPixelCount() {
-		Set<ZSetOperations.TypedTuple<String>> typedTuples = zSetOperations.reverseRangeWithScores(RANKING_KEY,
+		Set<ZSetOperations.TypedTuple<String>> typedTuples = zSetOperations.reverseRangeWithScores(currentPixelRankingKey,
 			RANKING_START_INDEX, RANKING_END_INDEX);
 		if (typedTuples == null) {
 			return new ArrayList<>();
@@ -43,10 +36,10 @@ public class RankingRedisRepository {
 	}
 
 	public void resetAllScoresToZero() {
-		Set<String> userIds = zSetOperations.range(RANKING_KEY, RANKING_START_INDEX, -1); // Get all members
-		if (userIds != null) {
-			for (String userId : userIds) {
-				zSetOperations.add(RANKING_KEY, userId, 0); // Update the score to 0
+		Set<String> ids = zSetOperations.range(currentPixelRankingKey, RANKING_START_INDEX, -1); // Get all members
+		if (ids != null) {
+			for (String id : ids) {
+				zSetOperations.add(currentPixelRankingKey, id, 0); // Update the score to 0
 			}
 		}
 	}
