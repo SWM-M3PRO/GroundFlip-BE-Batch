@@ -36,10 +36,10 @@ public class RankingRedisRepository {
 	}
 
 	public void resetAllScoresToZero() {
-		Set<String> userIds = zSetOperations.range(currentPixelRankingKey, RANKING_START_INDEX, -1); // Get all members
-		if (userIds != null) {
-			for (String userId : userIds) {
-				zSetOperations.add(currentPixelRankingKey, userId, 0); // Update the score to 0
+		Set<String> ids = zSetOperations.range(currentPixelRankingKey, RANKING_START_INDEX, -1); // Get all members
+		if (ids != null) {
+			for (String id : ids) {
+				zSetOperations.add(currentPixelRankingKey, id, 0); // Update the score to 0
 			}
 		}
 	}

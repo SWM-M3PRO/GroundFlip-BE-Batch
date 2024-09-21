@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.m3pro.groundflipbebatch.entity.RankingHistory;
 import com.m3pro.groundflipbebatch.entity.redis.RankingDetail;
+import com.m3pro.groundflipbebatch.repository.CommunityRankingRedisRepository;
 import com.m3pro.groundflipbebatch.repository.RankingHistoryRepository;
 import com.m3pro.groundflipbebatch.repository.UserRankingRedisRepository;
 import com.m3pro.groundflipbebatch.util.DateUtils;
@@ -24,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RankingService {
 	private final UserRankingRedisRepository userRankingRedisRepository;
+
+	private final CommunityRankingRedisRepository communityRankingRedisRepository;
 
 	private final RankingHistoryRepository rankingHistoryRepository;
 
@@ -68,6 +71,10 @@ public class RankingService {
 
 	public void resetUserRanking() {
 		userRankingRedisRepository.resetAllScoresToZero();
+	}
+
+	public void resetCommunityRanking() {
+		communityRankingRedisRepository.resetAllScoresToZero();
 	}
 
 }

@@ -39,10 +39,16 @@ public class BatchService {
 
 
 	@Scheduled(cron = "0 0 0 * * MON")
-	public void resetRankingOnEveryMonday() {
-		log.info("[resetRankingOnEveryMonday] 레디스의 모든 픽셀 갯수를 0으로 초기화 시작");
+	public void resetUserRankingOnEveryMonday() {
+		log.info("[resetUserRankingOnEveryMonday] 레디스의 모든 사용자 현재 픽셀 갯수를 0으로 초기화 시작");
 		rankingService.resetUserRanking();
-		log.info("[resetRankingOnEveryMonday] 레디스의 모든 픽셀 갯수를 0으로 초기화 완료");
+		log.info("[resetUserRankingOnEveryMonday] 레디스의 모든 사용자 현재 픽셀 갯수를 0으로 초기화 완료");
+	}
 
+	@Scheduled(cron = "0 0 0 * * MON")
+	public void resetCommunityRankingOnEveryMonday() {
+		log.info("[resetCommunityRankingOnEveryMonday] 레디스의 모든 그룹 현재 픽셀 갯수를 0으로 초기화 시작");
+		rankingService.resetUserRanking();
+		log.info("[resetCommunityRankingOnEveryMonday] 레디스의 모든 그룹 현재 픽셀 갯수를 0으로 초기화 완료");
 	}
 }
