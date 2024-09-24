@@ -48,7 +48,7 @@ public class BatchService {
 	@Scheduled(cron = "0 0 0 * * MON")
 	public void resetCommunityRankingOnEveryMonday() {
 		log.info("[resetCommunityRankingOnEveryMonday] 레디스의 모든 그룹 현재 픽셀 갯수를 0으로 초기화 시작");
-		rankingService.resetUserRanking();
+		rankingService.resetCommunityRanking();
 		log.info("[resetCommunityRankingOnEveryMonday] 레디스의 모든 그룹 현재 픽셀 갯수를 0으로 초기화 완료");
 	}
 }
