@@ -38,14 +38,14 @@ public class BatchService {
 	}
 
 
-	@Scheduled(cron = "0 0 0 * * MON")
+	@Scheduled(cron = "5 0 0 * * MON")
 	public void resetUserRankingOnEveryMonday() {
 		log.info("[resetUserRankingOnEveryMonday] 레디스의 모든 사용자 현재 픽셀 갯수를 0으로 초기화 시작");
 		rankingService.resetUserRanking();
 		log.info("[resetUserRankingOnEveryMonday] 레디스의 모든 사용자 현재 픽셀 갯수를 0으로 초기화 완료");
 	}
 
-	@Scheduled(cron = "0 0 0 * * MON")
+	@Scheduled(cron = "5 0 0 * * MON")
 	public void resetCommunityRankingOnEveryMonday() {
 		log.info("[resetCommunityRankingOnEveryMonday] 레디스의 모든 그룹 현재 픽셀 갯수를 0으로 초기화 시작");
 		rankingService.resetCommunityRanking();
