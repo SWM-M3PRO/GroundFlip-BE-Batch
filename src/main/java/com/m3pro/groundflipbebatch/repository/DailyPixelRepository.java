@@ -12,7 +12,7 @@ import com.m3pro.groundflipbebatch.entity.DailyPixel;
 public interface DailyPixelRepository extends JpaRepository<DailyPixel, Integer> {
 
 	@Query(value = """
-		SELECT user_id, COUNT(distinct pixel_id) AS daily_pixel_count,  created_at
+		SELECT user_id, COUNT(distinct pixel_id) AS daily_pixel_count
 				FROM pixel_user
 				WHERE created_at < :today and created_at >= DATE_SUB(:today, INTERVAL 1 DAY)
 				GROUP BY user_id;

@@ -6,8 +6,6 @@ public interface DailyPixelResponse {
 
 	Long getUserId();
 
-	Date getPixelDate();
-
 	Integer getDailyPixelCount();
 
 }
