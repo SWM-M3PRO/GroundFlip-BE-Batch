@@ -1,6 +1,6 @@
 package com.m3pro.groundflipbebatch.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,17 +19,19 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "pixel_record")
+@Table(name = "daily_pixel")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class DailyPixel extends BaseTimeEntity{
+public class DailyPixel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "pixel_record_id")
+	@Column(name = "daily_pixel_id")
 	private Long id;
 
 	private Integer dailyPixelCount;
+
+	private LocalDateTime createdAt;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
