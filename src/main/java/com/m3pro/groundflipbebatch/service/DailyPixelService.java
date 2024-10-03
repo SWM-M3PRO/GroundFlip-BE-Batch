@@ -19,11 +19,12 @@ import com.m3pro.groundflipbebatch.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DailyPixelService {
-	private static final Logger log = LoggerFactory.getLogger(DailyPixelService.class);
 	private final DailyPixelRepository dailyPixelRepository;
 	private final UserRepository userRepository;
 
