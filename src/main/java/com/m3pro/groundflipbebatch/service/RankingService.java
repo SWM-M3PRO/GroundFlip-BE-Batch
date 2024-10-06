@@ -1,6 +1,7 @@
 package com.m3pro.groundflipbebatch.service;
 
-import java.time.LocalDate;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -62,8 +63,14 @@ public class RankingService {
 	}
 
 	private Map<Long, RankingHistory> getRankingHistoriesOfThisWeekAsMap() {
-		Integer currentYear = LocalDate.now().getYear();
-		Integer currentWeek = DateUtils.getWeekOfDate(LocalDate.now());
+		LocalDateTime now = LocalDateTime.now();
+		Integer currentYear = now.getYear();
+		int currentWeek = DateUtils.getWeekOfDate(now.toLocalDate());
+
+		// 월요일 자정 체크
+		if (now.getDayOfWeek() == DayOfWeek.MONDAY && now.getHour() == 0) {
+			currentWeek -= 1;
+		}
 
 		return rankingHistoryRepository.findAllByYearAndWeek(currentYear, currentWeek).stream()
 			.collect(Collectors.toMap(RankingHistory::getUserId, Function.identity()));

@@ -1,6 +1,8 @@
 package com.m3pro.groundflipbebatch.entity;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.m3pro.groundflipbebatch.entity.redis.RankingDetail;
 import com.m3pro.groundflipbebatch.util.DateUtils;
@@ -38,8 +40,15 @@ public class RankingHistory extends BaseTimeEntity {
 	Integer week;
 
 	public static RankingHistory of(RankingDetail rankingDetail) {
-		int year = LocalDate.now().getYear();
-		int week = DateUtils.getWeekOfDate(LocalDate.now());
+		LocalDateTime now = LocalDateTime.now();
+
+		int year = now.getYear();
+		int week = DateUtils.getWeekOfDate(now.toLocalDate());
+
+		if (now.getDayOfWeek() == DayOfWeek.MONDAY && now.getHour() == 0) {
+			week -= 1;
+		}
+
 		return RankingHistory.builder()
 			.userId(rankingDetail.getUserId())
 			.ranking(rankingDetail.getRanking())
