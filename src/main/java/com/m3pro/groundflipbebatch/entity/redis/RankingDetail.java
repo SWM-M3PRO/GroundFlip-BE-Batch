@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class RankingDetail {
-	private Long userId;
+	private Long id;
 	private Long currentPixelCount;
 	private Long ranking;
 

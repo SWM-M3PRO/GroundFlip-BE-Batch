@@ -20,7 +20,7 @@ public class BatchService {
 	private final FcmService fcmService;
 	private final AchievementService achievementService;
 
-	@Scheduled(cron = "0 0 8 * * ?")
+	@Scheduled(cron = "0 20 8 * * ?")
 	public void sendDailyWalkNotification() {
 		String title = "\uD83D\uDC5F 그라운드 플립과 함께 걸을 시간";
 		String body = "오늘도 그라운드 플립을 켜고 땅을 점령해요!!";
@@ -39,6 +39,13 @@ public class BatchService {
 		log.info("[transferRankingToDatabaseOnEveryMidnight] 사용자 랭킹 정보를 DB로 이관 시작");
 		rankingService.transferRankingToDatabase();
 		log.info("[transferRankingToDatabaseOnEveryMidnight] 사용자 랭킹 정보를 DB로 이관 완료");
+	}
+
+	@Scheduled(cron = "0 0 * * * *")
+	public void transferCommunityRankingToDatabaseOnEveryMidnight() {
+		log.info("[transferCommunityRankingToDatabaseOnEveryMidnight] 그룹 랭킹 정보를 DB로 이관 시작");
+		rankingService.transferCommunityRankingToDatabase();
+		log.info("[transferCommunityRankingToDatabaseOnEveryMidnight] 그룹 랭킹 정보를 DB로 이관 완료");
 	}
 
 

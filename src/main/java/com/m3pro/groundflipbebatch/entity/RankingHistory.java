@@ -1,7 +1,6 @@
 package com.m3pro.groundflipbebatch.entity;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.m3pro.groundflipbebatch.entity.redis.RankingDetail;
@@ -50,7 +49,7 @@ public class RankingHistory extends BaseTimeEntity {
 		}
 
 		return RankingHistory.builder()
-			.userId(rankingDetail.getUserId())
+			.userId(rankingDetail.getId())
 			.ranking(rankingDetail.getRanking())
 			.currentPixelCount(rankingDetail.getCurrentPixelCount())
 			.year(year)
