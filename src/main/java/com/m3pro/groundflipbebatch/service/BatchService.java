@@ -1,10 +1,13 @@
 package com.m3pro.groundflipbebatch.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.m3pro.groundflipbebatch.enums.PushKind;
 import com.m3pro.groundflipbebatch.enums.PushTarget;
+import com.m3pro.groundflipbebatch.util.DateUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BatchService {
 	private final RankingService rankingService;
 	private final FcmService fcmService;
+	private final AchievementService achievementService;
 
 	@Scheduled(cron = "0 0 8 * * ?")
 	public void sendDailyWalkNotification() {
@@ -50,5 +54,13 @@ public class BatchService {
 		log.info("[resetCommunityRankingOnEveryMonday] 레디스의 모든 그룹 현재 픽셀 갯수를 0으로 초기화 시작");
 		rankingService.resetCommunityRanking();
 		log.info("[resetCommunityRankingOnEveryMonday] 레디스의 모든 그룹 현재 픽셀 갯수를 0으로 초기화 완료");
+	}
+
+	@Scheduled(cron = "0 10 0 * * MON")
+	public void updateRankingAchievementOnEveryMonday() {
+		LocalDateTime now = LocalDateTime.now();
+		Integer currentYear = now.getYear();
+		int currentWeek = DateUtils.getWeekOfDate(now.toLocalDate()) - 1;
+		achievementService.updateRankingAchievement(currentYear, currentWeek);
 	}
 }
