@@ -22,13 +22,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class RankingHistory extends BaseTimeEntity {
+public class CommunityRankingHistory extends BaseTimeEntity {
 	@Id
-	@Column(name = "ranking_history_id")
+	@Column(name = "community_ranking_history_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	Long userId;
+	Long communityId;
 
 	Long ranking;
 
@@ -38,7 +38,7 @@ public class RankingHistory extends BaseTimeEntity {
 
 	Integer week;
 
-	public static RankingHistory of(RankingDetail rankingDetail) {
+	public static CommunityRankingHistory of(RankingDetail rankingDetail) {
 		LocalDateTime now = LocalDateTime.now();
 
 		int year = now.getYear();
@@ -48,8 +48,8 @@ public class RankingHistory extends BaseTimeEntity {
 			week -= 1;
 		}
 
-		return RankingHistory.builder()
-			.userId(rankingDetail.getId())
+		return CommunityRankingHistory.builder()
+			.communityId(rankingDetail.getId())
 			.ranking(rankingDetail.getRanking())
 			.currentPixelCount(rankingDetail.getCurrentPixelCount())
 			.year(year)
