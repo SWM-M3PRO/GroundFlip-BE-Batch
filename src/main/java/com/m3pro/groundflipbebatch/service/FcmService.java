@@ -2,6 +2,7 @@ package com.m3pro.groundflipbebatch.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -94,6 +95,23 @@ public class FcmService {
 
 		if (!failedTokensId.isEmpty()) {
 			fcmTokenRepository.deleteAllById(failedTokensId);
+		}
+	}
+
+	public void sendNotificationToUser(String title, String body, Long userId) {
+		Optional<FcmToken> fcmToken = fcmTokenRepository.findTokenForServiceNotifications(userId);
+		if (fcmToken.isPresent()) {
+			FcmToken token = fcmToken.get();
+			try {
+				log.info("success send notification to user [{}]: tokenId = {}", token.getUser().getId(),
+					token.getId());
+				sendMessage(title, body, token.getToken());
+			} catch (FirebaseMessagingException e) {
+				if (isInvalidTokenError(e)) {
+					fcmTokenRepository.deleteByUser(token.getUser());
+					log.info("Failed to send notification to [{}]: {}", token.getUser().getId(), token.getToken());
+				}
+			}
 		}
 	}
 
