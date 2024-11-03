@@ -25,6 +25,9 @@ public class AchievementService {
 	private final RankingHistoryRepository rankingHistoryRepository;
 	private final UserAchievementRepository userAchievementRepository;
 	private final AchievementRepository achievementRepository;
+
+	private final NotificationService notificationService;
+
 	@Transactional
 	public void updateRankingAchievement(Integer year, Integer week) {
 		List<RankingHistory> rankingHistories = rankingHistoryRepository.findAllByYearAndWeek(year, week);
@@ -55,6 +58,7 @@ public class AchievementService {
 					.isRewardReceived(false)
 					.build();
 				userAchievementRepository.save(newAchievement);
+				notificationService.createAchievementNotification(userId, achievementRepository.getReferenceById(achievementId));
 			}
 		}
 	}
