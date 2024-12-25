@@ -61,13 +61,6 @@ jobs:
             echo "FIREBASE_SECRET_KEY=${{ secrets.FIREBASE_SECRET_KEY }}" >> .env
             echo "PUSH_SECRET_KEY=${{ secrets.PUSH_SECRET_KEY }}" >> .env
 
-##           구버전
-#            sudo docker rm -f $(sudo docker ps -qa)
-#            sudo docker-compose pull
-#            sudo docker-compose up -d
-#            sudo docker image prune -f
-
-#           마이그레이션 후 아래로 변경
             sudo docker rm -f groundflip_prod_batch_container
             sudo docker-compose pull
             sudo docker-compose up -d
