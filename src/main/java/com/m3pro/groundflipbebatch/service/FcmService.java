@@ -27,9 +27,11 @@ import lombok.extern.slf4j.Slf4j;
 public class FcmService {
 	private final FirebaseMessaging firebaseMessaging;
 	private final FcmTokenRepository fcmTokenRepository;
+	private final FcmTokenService fcmTokenService;
+	private static final int BATCH_SIZE = 100;
 
 	public void sendNotificationToAllUsers(String title, String body, PushTarget target, PushKind kind) {
-		List<FcmToken> fcmTokens = findFcmTokens(target, kind);
+		List<FcmToken> fcmTokens = fcmTokenService.findFcmTokens(target, kind);
 
 		sendNotificationToUsers(title, body, fcmTokens);
 	}
