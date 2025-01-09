@@ -48,7 +48,7 @@ public class FcmService {
 			MulticastMessage multicastMessage = createMulticastMessage(title, body, batch);
 
 			try {
-				BatchResponse batchResponse = firebaseMessaging.sendEachForMulticast(multicastMessage, true);
+				BatchResponse batchResponse = firebaseMessaging.sendEachForMulticast(multicastMessage);
 				invalidTokens.addAll(extractInvalidTokens(batch, batchResponse));
 			} catch (FirebaseMessagingException e) {
 				log.error("{} {}", e.getMessage(), e.getStackTrace());
