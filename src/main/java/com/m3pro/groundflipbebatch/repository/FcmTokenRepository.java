@@ -1,5 +1,6 @@
 package com.m3pro.groundflipbebatch.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,4 +71,6 @@ public interface FcmTokenRepository extends JpaRepository<FcmToken, Long> {
 	Optional<FcmToken> findTokenForServiceNotifications(@Param("user_id") Long userId);
 
 	void deleteByUser(User user);
+
+	void deleteByTokenIn(Collection<String> token);
 }
